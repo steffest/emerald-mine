@@ -178,6 +178,9 @@ void game_loop(void)
 
 
 void init_game(void){
+
+	emscripten_cancel_main_loop();
+
 	start_pause = 15; /* short pause at the start of each game */
 	end_pause = 30; /* short pause at the end of each game */
 
