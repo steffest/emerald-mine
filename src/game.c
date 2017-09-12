@@ -184,7 +184,10 @@ void init_game(void){
 	start_pause = 15; /* short pause at the start of each game */
 	end_pause = 30; /* short pause at the end of each game */
 
-	if(file_select_cave_level(nam[menu_select].cave, nam[menu_select].level)) return;
+	if(file_select_cave_level(nam[menu_select].cave, nam[menu_select].level)){
+		x11_event(EVENT_ERROR,0);
+		return;
+	}
 
 	binary_to_cave(file_cave_buffer, &cav);
 
@@ -196,7 +199,7 @@ void init_game(void){
 	x11_game_clear();
     x11_score_clear();
 
-
+	x11_event(EVENT_GAME_START,0);
     emscripten_set_main_loop(game_loop, 0, 0);
 }
 

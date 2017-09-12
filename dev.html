@@ -7,6 +7,10 @@
 	<meta name="viewport" content="width=device-width initial-scale=1 user-scalable=no">
 	<meta name="mobile-web-app-capable" content="yes">
 	<link rel="manifest" href="manifest.json">
+
+
+    <script src="script/eventbus.js"></script>
+
     <style>
         body {
             font-family: arial;
@@ -125,6 +129,8 @@
 
 
 		window.AudioContext = window.AudioContext||window.webkitAudioContext;
+
+		var Game = {};
 
 		var Sprites = function(){
 			var me = {};
@@ -267,6 +273,14 @@
 			}
 
 			me.playSample = function(index){
+
+				if (index == 0){
+					EventBus.trigger(EVENT.GAME_WON);
+                }
+
+                if (index == 1 && Game.ended) return;
+                if (index == 3 && Game.ended) return;
+
 				if (hasAudio && isLoaded){
 					var source = context.createBufferSource();
 					source.buffer = buffers[index];
@@ -486,6 +500,28 @@
 				}
 			}
 		}
+
+
+		var EVENT = {
+		    ERROR: 1,
+            GAME_START : 2,
+            GAME_WON : 3
+        };
+
+		EventBus.on(EVENT.ERROR,function(){
+			console.error("Error: could not load level")
+        });
+
+		EventBus.on(EVENT.GAME_START,function(){
+            console.log("start new game");
+			Game.ended = false;
+		});
+
+		EventBus.on(EVENT.GAME_WON,function(){
+			console.log("game won!");
+			Game.ended = true;
+		});
+
 
 
 

@@ -100,6 +100,13 @@ extern const unsigned char linear_to_ulaw[16384];
 
 /* ========== x11.c ========== */
 
+
+/* external events */
+
+#define EVENT_ERROR 1
+#define EVENT_GAME_START 2
+#define EVENT_GAME_END 3
+
 /* window and event loop */
 
 extern int keyboard_raw;
@@ -158,5 +165,6 @@ extern void x11_menu_print(char str[26], int top);
 extern void x11_menu_ants(int left, int right, int top);
 extern void x11_menu_to_screen(void);
 extern void x11_quit(void);
+extern void x11_event(int event,int data);
 
 #endif

@@ -135,6 +135,9 @@ mergeInto(LibraryManager.library, {
 	},
 	js_quit : function(){
 		window.location.href = "http://www.emeraldmines.net";
+	},
+	js_event: function(event,data){
+		EventBus.trigger(event,data);
 	}
 });
 

@@ -30,6 +30,7 @@ extern void js_drawGameScreen(int x, int y, int width, int height);
 extern void js_setObjectPixelRGB(int r, int g, int b, int x, int y);
 extern void js_playAudio(int index);
 extern void js_quit(void);
+extern void js_event(int event, int data);
 
 /* ---------------------------------------------------------------------- */
 
@@ -169,6 +170,7 @@ int audio_open(void)
 void audio_write(struct LOGIC *lev)
 {
 	int i;
+
 	for(i = 0; i < SOUND_MAX; i++) if(lev->sound[i]) {
 		js_playAudio(i);
 	}
@@ -475,6 +477,11 @@ void x11_menu_to_screen(void)
 void x11_quit(void)
 {
 	js_quit();
+}
+
+void x11_event(int event, int data)
+{
+	js_event(event,data);
 }
 
 
