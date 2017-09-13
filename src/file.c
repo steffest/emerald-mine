@@ -127,6 +127,7 @@ static int cave_remove;
 
 static int cave_cache = -1;
 static int level_cache = -1;
+static int level_max = 0;
 
 static struct unzip *zstate;
 
@@ -462,6 +463,12 @@ cave:
 	if(level == level_cache) goto level;
 	memset(file_cave_buffer, 0, 2172);
 	level_cache = -1;
+
+	level_max = (cave_len / 2172) - 1;
+	if (level>level_max) level = level_max;
+
+	fprintf(stdout,"level_max: %d\n",level_max);
+
 	if(!(level >= 0 && level < cave_len / 2172)) goto level;
 
 	if(fseek(cave_fp, level * 2172, SEEK_SET)) {
@@ -478,6 +485,11 @@ cave:
 level:
 
 	return(cave_cache == -1 || level_cache == -1);
+}
+
+
+int getMaxLevel(void){
+	return level_max;
 }
 
 /* ---------------------------------------------------------------------- */
