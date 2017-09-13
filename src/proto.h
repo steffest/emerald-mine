@@ -191,5 +191,7 @@ extern void js_setObjectPixelRGB(int r, int g, int b, int x, int y);
 extern void js_playAudio(int index);
 extern void js_quit(void);
 extern void js_event(int event, int data);
+extern void js_tick(int left, int up, int right, int down, int shoot);
+extern int js_getSeed(void);
 
 #endif

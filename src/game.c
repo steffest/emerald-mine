@@ -123,10 +123,9 @@ void end_game(void){
     nam[menu_select].score += lev.score;
     if(lev.win[0] > 0 && lev.win[1] > 0) {
     	nam[menu_select].won++;
-
     	if (nam[menu_select].level < getMaxLevel()) nam[menu_select].level++;
     }
-
+    js_event(EVENT_GAME_END,lev.score);
 
  	// set loop back to menu
     box = 11;
@@ -142,6 +141,10 @@ void game_loop(void)
 		int game_ended = 0;
 		game_input();
 
+		if (lev.frame == 0){
+              js_tick(lev.joystick[0][INPUT_west],lev.joystick[0][INPUT_north],lev.joystick[0][INPUT_east],lev.joystick[0][INPUT_south],lev.joystick[0][INPUT_shoot]);
+        }
+
 		logic(&lev);
 
 		audio_write(&lev);
@@ -154,6 +157,8 @@ void game_loop(void)
 		x11_game_player(&lev);
 		x11_game_score(&lev);
 		x11_game_to_screen();
+
+
 
 		if(start_pause == 0) lev.frame = (lev.frame + 1) % 8;
 
@@ -197,6 +202,7 @@ void init_game(void){
 
 	binary_to_cave(file_cave_buffer, &cav);
 
+    seed = js_getSeed();
 	cav.seed = seed;
 	cav.teamwork = menu_team;
 
@@ -205,7 +211,7 @@ void init_game(void){
 	x11_game_clear();
     x11_score_clear();
 
-	x11_event(EVENT_GAME_START,0);
+	x11_event(EVENT_GAME_START,seed);
     emscripten_set_main_loop(game_loop, 0, 0);
 }
 
@@ -304,7 +310,7 @@ static void menu_main_refresh(void)
 
 void menu_main_js(void){
 
-	seed++;
+	//seed++;
 	x11_menu_clear();
 	memset(menu_draw, 1, 15); /* draw all menu lines */
 
@@ -656,7 +662,6 @@ void menu(void)
         menu_names_write();
 
     #endif
-
 
 
 }

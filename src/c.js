@@ -146,6 +146,13 @@ mergeInto(LibraryManager.library, {
 		Game.score = score;
 		Game.diamonds = diamonds;
 		Game.time = time;
+	},
+	js_tick: function(left,up,right,down,shoot){
+		var packed = left | up<<1 | right<<2 | down<<3 | shoot<<4;
+		EventBus.trigger(EVENT.GAME_TICK,packed);
+	},
+	js_getSeed: function(){
+		return new Date().getTime();
 	}
 });
 
