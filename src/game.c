@@ -105,8 +105,10 @@ static void game_score(void)
 	} else if(lev.diamonds == 0) {
 		strncpy(buffer + 13, "find the exit", 13);
 	}
+	js_updateScore(lev.score,lev.diamonds,lev.time);
 	x11_score_print(buffer);
 }
+
 
 /* ---------------------------------------------------------------------- */
 
@@ -119,7 +121,11 @@ extern void logic(struct LOGIC *L);
 void end_game(void){
 	nam[menu_select].played++;
     nam[menu_select].score += lev.score;
-    if(lev.win[0] > 0 && lev.win[1] > 0) nam[menu_select].won++;
+    if(lev.win[0] > 0 && lev.win[1] > 0) {
+    	nam[menu_select].won++;
+
+    	if (nam[menu_select].level < getMaxLevel()) nam[menu_select].level++;
+    }
 
 
  	// set loop back to menu
@@ -202,8 +208,6 @@ void init_game(void){
 	x11_event(EVENT_GAME_START,0);
     emscripten_set_main_loop(game_loop, 0, 0);
 }
-
-
 
 
 /* ---------------------------------------------------------------------- */
