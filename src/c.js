@@ -115,6 +115,9 @@ mergeInto(LibraryManager.library, {
 
 		c.drawImage(window.screenPixmapCanvas,x,y,w,h,0,0,w,h);
 		c.drawImage(window.scorePixmapCanvas,0,0);
+
+		EventBus.trigger(EVENT.GAME_SCREEN_DRAWN);
+
 	},
 	js_setObjectPixelRGB: function(r,g,b,x,y){
 		//note - this is only used once at development time to generate the sprites
@@ -138,6 +141,11 @@ mergeInto(LibraryManager.library, {
 	},
 	js_event: function(event,data){
 		EventBus.trigger(event,data);
+	},
+	js_updateScore: function(score,diamonds,time){
+		Game.score = score;
+		Game.diamonds = diamonds;
+		Game.time = time;
 	}
 });
 

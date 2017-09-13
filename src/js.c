@@ -11,28 +11,6 @@ extern char *global;
 #include <emscripten.h>
 
 /* ---------------------------------------------------------------------- */
-/* javascript functions declarations */
-
-extern void js_initScreen(int width, int height);
-extern void js_initKeyboard(void);
-extern void js_drawMenu(void);
-extern void js_drawMenuAnts(int left, int right, int top);
-extern void js_createCanvas(char name, int width, int height);
-extern void js_clearRect(int x, int y, int width, int height);
-extern void js_menuClear(void);
-extern void js_menuPrint(char str[26],int top);
-extern int js_getKey(int keyCode);
-extern void js_printScore(char str[40]);
-extern void js_drawObject(int tile, int x, int y);
-extern void js_blit(char source, int srcX, int srcY, int srcW, int srcH, char destination , int dstX, int dstY, int dstW, int dstH);
-extern void js_fillRect(char color, int x, int y, int w, int h);
-extern void js_drawGameScreen(int x, int y, int width, int height);
-extern void js_setObjectPixelRGB(int r, int g, int b, int x, int y);
-extern void js_playAudio(int index);
-extern void js_quit(void);
-extern void js_event(int event, int data);
-
-/* ---------------------------------------------------------------------- */
 
 /* create window, create palette */
 

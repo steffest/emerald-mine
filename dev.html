@@ -137,6 +137,8 @@
 			var rendered = false;
 			var loaded = false;
 			var menu = false;
+			var hasWonImage = false;
+
 
 			var spriteset = new Image();
 			spriteset.onload = function(){
@@ -153,6 +155,12 @@
 			};
 			menuImg.src = "menu.png";
 
+			var wonImg = new Image();
+			wonImg.onload = function(){
+				hasWonImage = true;
+			};
+			wonImg.src = "youdidit.png";
+
 			me.render = function(){
                 if (rendered) return;
                 if (!loaded) return;
@@ -164,11 +172,29 @@
             };
 
 			me.drawMenu = function(){
+				Game.won = false;
+				Game.ended = false;
                 if (menu){
                 	window.ctx.drawImage(menuImg,0,0);
                 }else{
 					window.ctx.clearRect(0,0,640,480);
                 }
+            };
+
+			me.renderWon = function(){
+				ctx.fillStyle = "rgba(0,0,0,0.5)";
+				ctx.fillRect(0,0,canvas.width,canvas.height);
+                if (hasWonImage){
+					window.ctx.drawImage(wonImg,100,100);
+                }
+
+				ctx.font = '16px monospace';
+				ctx.fillStyle = "white";
+				ctx.textAlign = "center";
+				var text = "Your score is";
+				ctx.fillText(text,320,200);
+				ctx.font = '30px monospace';
+				ctx.fillText(Game.score,320,230);
             };
 
 			return me;
@@ -505,7 +531,8 @@
 		var EVENT = {
 		    ERROR: 1,
             GAME_START : 2,
-            GAME_WON : 3
+            GAME_WON : 3,
+            GAME_SCREEN_DRAWN: 4
         };
 
 		EventBus.on(EVENT.ERROR,function(){
@@ -515,14 +542,26 @@
 		EventBus.on(EVENT.GAME_START,function(){
             console.log("start new game");
 			Game.ended = false;
+			Game.won = false;
 		});
 
 		EventBus.on(EVENT.GAME_WON,function(){
 			console.log("game won!");
+			console.log("score: " + Game.score);
 			Game.ended = true;
+			Game.wonDelay = 0;
+			Game.won = true;
 		});
 
-
+		EventBus.on(EVENT.GAME_SCREEN_DRAWN,function(){
+			if(Game.won){
+				if (Game.wonDelay<50){
+					Game.wonDelay++;
+                }else{
+					Sprites.renderWon();
+                }
+            }
+		});
 
 
 		//https://github.com/beatgammit/base64-js
