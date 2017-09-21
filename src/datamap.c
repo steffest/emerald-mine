@@ -628,6 +628,7 @@ const short font_map[128] = {
 	['4'] = Mdigit+64, ['5'] = Mdigit+80,
 	['6'] = Mdigit+96, ['7'] = Mdigit+112,
 	['8'] = Mdigit+128, ['9'] = Mdigit+144,
+	['.'] = Mdigit+448,
 };
 
 const short score_map[128] = {
